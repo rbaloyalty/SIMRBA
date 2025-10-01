@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<title>Simulador de Investimento - RBA Contabilidade</title>
+<style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 40px; }
+        .container { background: #fff; padding: 30px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { color: #2E7D32; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        #resultado { margin-top: 20px; font-size: 16px; color: #333; }
+    </style>
+</head>
+<body><div style="text-align: center; margin-bottom: 20px;"><img alt="Logo RBA" src="Logotipo - RBA.png" style="max-width: 200px;"/></div>
+<div style="text-align: center; margin-bottom: 20px;"><img alt="Logotipo-RBA" src="Logotipo - RBA.png" style="max-width: 200px;"/></div><div class="container">
+<h2>Simulador de Investimento</h2>
+<label for="servico">Tipo de Serviço:</label>
+<select id="servico">
+<option>Contabilidade Geral</option>
+<option>Contabilidade Regulatória</option>
+<option>Consultoria em IFRS - Normas Internacionais</option>
+<option>Auditoria</option>
+<option>Due Diligence</option>
+<option>Business Plan e Business Plan Estratégico</option>
+<option>Consultoria de Processos</option>
+<option>BPO Financeiro</option>
+<option>Analise, viabilização e formação da CAPAG (PGFN)</option>
+<option>Departamento Pessoal e Folha</option>
+</select>
+<label for="porte">Porte da Empresa:</label>
+<select id="porte">
+<option>Faturamento até R$360.000,00</option>
+<option>Faturamento entre R$361.000,00 e R$1.000.000,00</option>
+<option>Faturamento acima de R$1.000.000,00</option>
+</select>
+<label for="complexidade">Complexidade:</label>
+<select id="complexidade">
+<option>Baixa</option>
+<option>Média</option>
+<option>Alta</option>
+</select>
+<button onclick="simular()">Simular Investimento</button>
+<div id="resultado"></div>
+</div>
+<script>
+        function simular() {
+            const servico = document.getElementById('servico').value;
+            const porte = document.getElementById('porte').value;
+            const complexidade = document.getElementById('complexidade').value;
+
+            const precos = {
+                "Contabilidade Geral": [2000, 12000],
+                "Contabilidade Regulatória": [5000, 15000],
+                "Consultoria em IFRS - Normas Internacionais": [10000, 60000],
+                "Auditoria": [10000, 150000],
+                "Due Diligence": [5000, 70000],
+                "Business Plan e Business Plan Estratégico": [30000, 100000],
+                "Consultoria de Processos": [10000, 100000],
+                "BPO Financeiro": [10000, 80000],
+                "Analise, viabilização e formação da CAPAG (PGFN)": [8000, 80000],
+                "Departamento Pessoal e Folha": [3000, 12000]
+            };
+
+            const fator_porte = { "Faturamento até R$360.000,00": 0.8, "Faturamento entre R$361.000,00 e R$1.000.000,00": 1.0, "Faturamento acima de R$1.000.000,00": 1.3 };
+            const fator_complexidade = { "Baixa": 0.9, "Média": 1.0, "Alta": 1.2 };
+
+            const faixa = precos[servico];
+            const fator_total = fator_porte[porte] * fator_complexidade[complexidade];
+
+            const preco_min = Math.round(faixa[0] * fator_total);
+            const preco_max = Math.round(faixa[1] * fator_total);
+
+            document.getElementById('resultado').innerText = `
+Estimativa de investimento para "${servico}" (${porte}, complexidade ${complexidade}): R$${preco_min} – R$${preco_max}`;
+        }
+    </script>
+</body>
+</html>
